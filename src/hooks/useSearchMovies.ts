@@ -15,7 +15,7 @@ export function useSearchMovies(query: string, filter: string) {
       const typeParam = filter !== "all" ? filter : undefined
       const res = await omdbClient.get("", {
         params: {
-          s: query,
+          s: query.trim(),
           type: typeParam
         },
       })
@@ -26,7 +26,7 @@ export function useSearchMovies(query: string, filter: string) {
 
       return res.data.Search
     },
-    enabled: !!query,
+    enabled: !!query?.trim(),
     staleTime: 1000 * 60 * 5,
   })
 }

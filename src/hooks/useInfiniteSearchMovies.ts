@@ -13,14 +13,14 @@ const PAGE_SIZE = 10;
 export function useInfiniteSearchMovies(query: string, filter: string) {
   return useInfiniteQuery<OmdbSearchResponse>({
     queryKey: ["movies", query, filter],
-    enabled: !!query,
+    enabled: !!query?.trim(),
     initialPageParam: 1,
     queryFn: async ({ pageParam = 1 }) => {
       const typeParam = filter !== "all" ? filter : undefined;
       const response = await axios.get("https://www.omdbapi.com/", {
         params: {
           apikey: process.env.NEXT_PUBLIC_API_SECURITY_KEY,
-          s: query,
+          s: query.trim(),
           type: typeParam,
           page: pageParam,
         },
