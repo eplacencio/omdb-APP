@@ -1,11 +1,11 @@
+'use client';
+
 import MovieDetailContent from "@/components/MovieDetails/MovieDetailContent";
+import { useParams } from "next/navigation";
 
-interface DetailPageProps {
-  params: { id: string };
-}
-
-export default async function DetailPage({ params }: DetailPageProps) {
-  const { id } = await params;
+export default function DetailPage() {
+  const params = useParams();
+  const id = params?.id as string;
 
   return (
     <main className="bg-neutral-900 min-h-screen flex justify-center sm:py-5">

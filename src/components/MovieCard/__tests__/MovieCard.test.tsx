@@ -1,61 +1,46 @@
 import { render, screen } from '@testing-library/react'
 import '@testing-library/jest-dom'
-import MovieCard from '../index'
+import MovieCardComponent from '..'
 import { MovieSummary } from '@/domain/models'
 
-// Mock MovieImage component
-jest.mock('@/components/MovieImage', () => ({
-  MovieImage: ({ src, title }: { src: string; title: string }) => (
-    <img src={src} alt={title} data-testid="movie-image" />
-  )
+// Mock next/image
+jest.mock('next/image', () => ({
+  __esModule: true,
+  default: function Image({ src, alt, priority }: { src: string; alt: string; priority?: boolean }) {
+    // eslint-disable-next-line @next/next/no-img-element
+    return <img src={src} alt={alt} data-testid="mock-next-image" data-priority={priority ? 'true' : undefined} />
+  },
 }))
 
+const mockMovie: MovieSummary = {
+  Title: 'Test Movie',
+  Year: '2024',
+  imdbID: 'tt1234567',
+  Type: 'movie',
+  Poster: 'https://test.com/poster.jpg'
+}
+
 describe('MovieCard', () => {
-  const mockMovie: MovieSummary = {
-    Title: 'Test Movie',
-    Year: '2024',
-    imdbID: 'tt1234567',
-    Type: 'movie',
-    Poster: 'https://test.com/poster.jpg'
-  }
+  it('renders movie information correctly', () => {
+    render(<MovieCardComponent movie={mockMovie} />)
 
-  it('should render movie information correctly', () => {
-    render(<MovieCard movie={mockMovie} />)
-
-    // Check if movie title is rendered
     expect(screen.getByText('Test Movie')).toBeInTheDocument()
-
-    // Check if year and type are rendered
     expect(screen.getByText('2024 • movie')).toBeInTheDocument()
-
-    // Check if MovieImage component is rendered with correct props
-    const movieImage = screen.getByTestId('movie-image')
-    expect(movieImage).toHaveAttribute('src', 'https://test.com/poster.jpg')
-    expect(movieImage).toHaveAttribute('alt', 'Test Movie')
+    expect(screen.getByTestId('mock-next-image')).toHaveAttribute('src', 'https://test.com/poster.jpg')
   })
 
-  it('should render with priority prop', () => {
-    render(<MovieCard movie={mockMovie} priority={true} />)
+  it('handles missing poster gracefully', () => {
+    const movieWithoutPoster = { ...mockMovie, Poster: 'N/A' }
+    render(<MovieCardComponent movie={movieWithoutPoster} />)
 
-    // Component should still render correctly with priority prop
     expect(screen.getByText('Test Movie')).toBeInTheDocument()
-    expect(screen.getByText('2024 • movie')).toBeInTheDocument()
+    expect(screen.getByTestId('mock-next-image')).toBeInTheDocument()
   })
 
-  it('should handle missing poster', () => {
-    const movieWithoutPoster: MovieSummary = {
-      ...mockMovie,
-      Poster: 'N/A'
-    }
+  it('handles priority prop correctly', () => {
+    render(<MovieCardComponent movie={mockMovie} priority />)
 
-    render(<MovieCard movie={movieWithoutPoster} />)
-
-    // Should still render title and other information
-    expect(screen.getByText('Test Movie')).toBeInTheDocument()
-    expect(screen.getByText('2024 • movie')).toBeInTheDocument()
-    
-    // Check if MovieImage component is rendered with N/A poster
-    const movieImage = screen.getByTestId('movie-image')
-    expect(movieImage).toHaveAttribute('src', 'N/A')
+    const image = screen.getByTestId('mock-next-image')
+    expect(image).toHaveAttribute('data-priority', 'true')
   })
 })

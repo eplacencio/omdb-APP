@@ -1,6 +1,21 @@
 import { Metadata } from "next"
 import ReactQueryProvider from "../providers/ReactQueryProvider"
 import "./globals.css"
+import { Bebas_Neue, Poppins } from 'next/font/google'
+
+const bebas = Bebas_Neue({
+  weight: '400',
+  subsets: ['latin'],
+  variable: '--font-bebas',
+  display: 'swap',
+})
+
+const poppins = Poppins({
+  weight: ['400', '600', '700'],
+  subsets: ['latin'],
+  variable: '--font-poppins',
+  display: 'swap',
+})
 
 export const metadata: Metadata = {
   title: "OMDb APP",
@@ -14,17 +29,7 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en">
-      <head>
-        <link
-          href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap"
-          rel="stylesheet"
-        />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Poppins:wght@400600700&display=swap"
-          rel="stylesheet"
-        />
-      </head>
+    <html lang="en" className={`${bebas.variable} ${poppins.variable}`}>
       <body className="font-sans">
         <ReactQueryProvider>{children}</ReactQueryProvider>
       </body>

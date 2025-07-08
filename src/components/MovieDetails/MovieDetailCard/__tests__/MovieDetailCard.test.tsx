@@ -32,17 +32,41 @@ jest.mock('@/components/MovieImage', () => ({
   }
 }))
 
+// Mock next/image
+jest.mock('next/image', () => ({
+  __esModule: true,
+  default: function Image({ src, alt }: { src: string; alt: string }) {
+    // eslint-disable-next-line @next/next/no-img-element
+    return <img src={src} alt={alt} data-testid="mock-next-image" />
+  },
+}))
+
 describe('MovieDetailCard', () => {
   const mockMovie: MovieDetail = {
     Title: 'Test Movie',
     Year: '2024',
-    Genre: 'Action, Drama',
+    Rated: 'PG-13',
+    Released: '2024-01-01',
+    Runtime: '120 min',
+    Genre: 'Action',
     Director: 'Test Director',
-    Actors: 'Actor 1, Actor 2',
-    Plot: 'Test plot description',
-    Poster: 'test-poster.jpg',
+    Writer: 'Test Writer',
+    Actors: 'Test Actor 1, Test Actor 2',
+    Plot: 'Test plot',
+    Language: 'English',
+    Country: 'USA',
+    Awards: 'None',
+    Poster: 'https://test.com/poster.jpg',
+    Ratings: [],
+    Metascore: '75',
+    imdbRating: '7.5',
+    imdbVotes: '1000',
     imdbID: 'tt1234567',
     Type: 'movie',
+    DVD: '2024-02-01',
+    BoxOffice: '$1,000,000',
+    Production: 'Test Production',
+    Website: 'https://test.com',
     Response: 'True'
   }
 
@@ -68,6 +92,11 @@ describe('MovieDetailCard', () => {
     expect(screen.getByText(`Actors:`)).toBeInTheDocument()
     expect(screen.getByText(mockMovie.Actors)).toBeInTheDocument()
     expect(screen.getByText(mockMovie.Plot)).toBeInTheDocument()
+    expect(screen.getByText('Test Writer')).toBeInTheDocument()
+    expect(screen.getByText('PG-13')).toBeInTheDocument()
+    expect(screen.getByText('2024')).toBeInTheDocument()
+    expect(screen.getByText('7.5')).toBeInTheDocument()
+    expect(screen.getByTestId('mock-next-image')).toHaveAttribute('src', mockMovie.Poster)
   })
 
   it('renders MovieImage with correct props', () => {
