@@ -1,36 +1,112 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# OMDB Movie Search App
+
+A React application built with Next.js and TypeScript that allows users to search for movies and TV shows using the OMDB API. The application follows Clean Architecture principles and provides a modern, responsive user interface.
+
+## Features
+
+- Search movies and TV shows by title
+- Filter results by type (movies, series, or both)
+- View detailed information about each title
+- Responsive design using Tailwind CSS
+- Infinite scroll pagination
+- Error handling and loading states
+- Caching with React Query
+- Type-safe development with TypeScript
+
+## Tech Stack
+
+- **Framework**: Next.js 14
+- **Language**: TypeScript
+- **Styling**: Tailwind CSS
+- **State Management**: Zustand
+- **Data Fetching**: React Query
+- **Testing**: Jest + React Testing Library
+- **Architecture**: Clean Architecture
+
+## Prerequisites
+
+Before you begin, ensure you have:
+- Node.js 18.17 or later
+- npm or yarn package manager
+- OMDB API Key (get it from [OMDB API](https://www.omdbapi.com/))
 
 ## Getting Started
 
-First, run the development server:
+1. Clone the repository:
+```bash
+git clone git@github.com:eplacencio/omdb-APP.git
+cd omdb-app
+```
 
+2. Install dependencies:
+```bash
+npm install
+# or
+yarn install
+```
+
+3. Create a `.env` file in the root directory:
+```env
+NEXT_PUBLIC_API_SECURITY_KEY=your_omdb_api_key_here
+```
+Replace `your_omdb_api_key_here` with the API key obtained from [OMDB API](https://www.omdbapi.com/)
+
+4. Run the development server:
 ```bash
 npm run dev
 # or
 yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+5. Open [http://localhost:3000](http://localhost:3000) with your browser to see the application.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Screenshots
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### Home Page
+![Home Page](public/screenshots/home.png)
+*Landing page with search functionality and featured movies*
 
-## Learn More
+### Search Results
+![Search Results](public/screenshots/search.png)
+*Search results showing Batman movies with filter options*
 
-To learn more about Next.js, take a look at the following resources:
+### Movie Details
+![Movie Details](public/screenshots/details.png)
+*Detailed view of a movie showing comprehensive information*
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Project Structure
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```
+src/
+├── app/                    # Next.js app router pages
+├── components/             # React components
+├── data/                   # Data layer (API clients)
+├── domain/                 # Domain layer (models and schemas)
+├── hooks/                  # Custom React hooks
+├── providers/             # React providers
+├── state/                 # State management
+└── utils/                 # Utility functions
+```
 
-## Deploy on Vercel
+## Testing
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+The project includes unit tests for components and hooks. To run the tests:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```bash
+# Run tests
+npm test
+
+# Run tests with coverage
+npm test -- --coverage
+```
+
+## Development Guidelines
+
+- Follow the established Clean Architecture pattern
+- Write tests for new components and features
+- Use TypeScript for type safety
+- Follow the existing code style and formatting
+
+## License
+
+This project is licensed under the MIT License - see the LICENSE file for details.

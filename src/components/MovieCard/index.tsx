@@ -19,6 +19,7 @@ function MovieCardComponent({
         src={movie?.Poster}
         title={movie?.Title}
         priority={priority}
+        className="w-full min-h-90 max-h-90"
       />
       <p className="text-neutral-200 my-2">{movie.Title}</p>
       <p className="text-sm text-neutral-500">

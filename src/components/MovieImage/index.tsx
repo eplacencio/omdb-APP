@@ -9,12 +9,14 @@ interface MovieImageProps {
   src: string
   title: string
   priority?: boolean
+  className?: string
 }
 
 function MovieImageComponent({
   src,
   title,
-  priority = false
+  priority = false,
+  className = "w-full min-h-90 max-h-120"
 }: Readonly<MovieImageProps>) {
   const [hasError, setHasError] = useState(false);
 
@@ -26,7 +28,7 @@ function MovieImageComponent({
     <Image
       src={src}
       alt={title}
-      className="w-full min-h-90 max-h-120 object-cover mb-2 rounded-xl sm:mb-0"
+      className={`${className} object-cover mb-2 rounded-xl sm:mb-0`}
       width={500}
       height={750}
       priority={priority}

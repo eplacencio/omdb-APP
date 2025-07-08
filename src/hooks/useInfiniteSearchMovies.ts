@@ -27,14 +27,13 @@ export function useInfiniteSearchMovies(query: string, filter: string) {
       });
 
       if (response?.data?.Error) {
-        return { Search: [], totalResults: "0" };
+        throw new Error('We could not find what you were looking for.');
       }
 
-      return response?.data ?? { Search: [], totalResults: "0" };
+      return response?.data;
     },
     getNextPageParam: (lastPage, pages) => {
       if (!lastPage?.totalResults || lastPage.totalResults === "0") {
-        console.log("lastPage", lastPage)
         return undefined;
       }
 

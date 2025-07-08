@@ -32,17 +32,20 @@ export default function Home() {
   } = useInfiniteSearchMovies(toSearch, filter);
 
   // Memoized movies data
-  const allSearchMovies: MoviesSearch = useMemo(() =>
-    searchData?.pages.flatMap((p) => p.Search) ?? [],
+  const allSearchMovies: MoviesSearch = useMemo(
+    () => searchData?.pages.flatMap((p) => p.Search) ?? [],
     [searchData?.pages]
   );
 
   // Optimized intersection observer callback
-  const handleIntersect = useCallback((entries: IntersectionObserverEntry[]) => {
-    if (entries[0].isIntersecting && !isFetchingSearch) {
-      fetchNextSearchPage();
-    }
-  }, [fetchNextSearchPage, isFetchingSearch]);
+  const handleIntersect = useCallback(
+    (entries: IntersectionObserverEntry[]) => {
+      if (entries[0].isIntersecting && !isFetchingSearch) {
+        fetchNextSearchPage();
+      }
+    },
+    [fetchNextSearchPage, isFetchingSearch]
+  );
 
   // IntersectionObserver setup
   useEffect(() => {
@@ -57,22 +60,18 @@ export default function Home() {
     return () => observer.disconnect();
   }, [hasNextSearch, handleIntersect]);
 
-  // Loading state
-  if (isLoadingSearch) {
-    return (
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-4">
-        {Array.from({ length: ITEMS_PER_PAGE }).map((_, i) => (
-          <MovieCardSkeleton key={i} />
-        ))}
-      </div>
-    );
-  }
-
   return (
     <main className="flex flex-col bg-neutral-900 min-h-screen">
       <div className="flex flex-col items-center justify-center z-10 pb-5">
         <HomeBanner />
         <div className="w-full max-w-4xl lg:max-w-7xl px-5">
+          {isLoadingSearch && (
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-4">
+              {Array.from({ length: ITEMS_PER_PAGE }).map((_, i) => (
+                <MovieCardSkeleton key={i} />
+              ))}
+            </div>
+          )}
           {allSearchMovies && allSearchMovies.length > 0 && (
             <section className="sm:py-10">
               {!hasSearch && (
